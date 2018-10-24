@@ -1,9 +1,11 @@
 package aplicacao;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Turma {
+public class Turma implements Serializable{
+	Cadeira cadeira;
 	private int ano;
 	private int semestre;
 	private int quantidadeDeFaltas;
