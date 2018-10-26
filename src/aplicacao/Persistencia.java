@@ -18,6 +18,7 @@ public class Persistencia {
 		String tempNome;
 		int tempCartao;
 		
+		System.out.println("Usuario nao declarado. Por favor registre um novo");
 		System.out.print("Digite seu nome: ");
 		tempNome = keyboard.nextLine();
 		System.out.print("Digite seu cartao: ");

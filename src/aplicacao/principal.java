@@ -42,7 +42,7 @@ public class principal {
 			System.out.println(opcao.getNumero() + " - " + opcao.toString());
 		}
 		
-		return Operacao.values()[Integer.parseInt(keyboard.nextLine())-1];
+		return Operacao.values()[Integer.parseInt(keyboard.nextLine())-1]; //Deve precisar de um try/catch
 	}
 	
 	public static void inicializa() {
@@ -53,7 +53,6 @@ public class principal {
 		
 		System.out.println("Nome: " + usuario.getNome());
 		System.out.println("Cartao: " + usuario.getNumeroCartao());
-		
 	}
 	
 	private static void listaCadeiras() {

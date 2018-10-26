@@ -10,7 +10,7 @@ public class Usuario implements Serializable {
 	private int numeroCartao;
 	private List<Cadeira> cadeiras;
 	private List<Turma> turmasAtivas;
-	//private Historico historico;
+	private Historico historico;
 	
 	private static final Scanner keyboard = principal.keyboard;;
 	
@@ -34,6 +34,10 @@ public class Usuario implements Serializable {
 		cadeiras.add(new Cadeira(tempNome, tempCod));
 	}
 	
+	public void terminaCadeira(Cadeira c){
+
+	}
+	
 	
 	//Getters
 	public String getNome() {
@@ -50,5 +54,9 @@ public class Usuario implements Serializable {
 
 	public List<Turma> getTurmasAtivas() {
 		return turmasAtivas;
+	}
+	
+	public Historico getHistorico(){
+		return historico;
 	}
 }
