@@ -10,13 +10,14 @@ public class principal {
 	public static final Scanner keyboard = new Scanner(System.in);
 	
 	private enum Operacao {
-		ADD_CADEIRA(1), ADD_TURMA(2), TERMINA_CADEIRA(3), LISTAR_CADEIRAS(4), SAVE_QUIT(5);
+		ADD_CADEIRA(1), ADD_TURMA(2), TERMINA_CADEIRA(3), LISTAR_CADEIRAS(4), LISTAR_TURMAS(5), SAVE_QUIT(6);
 		
 		private final String[] nomes = {
 				"Adicionar Cadeira", 
 				"Adicionar Turma", 
 				"Finalizar Cadeira",
 				"Listar Cadeiras",
+				"Listar Turmas",
 				"Salvar e Sair"
 		};
 		
@@ -56,10 +57,36 @@ public class principal {
 	}
 	
 	private static void listaCadeiras() {
+		int i = 1;
 		for(Cadeira c : usuario.getCadeiras()) {
-			System.out.println(c.getNome());
+			System.out.println(i + ") " + c.getNome());
+			i++;
 		}
-		System.out.println("");
+		
+	}
+	
+	private static void listaTurmas() {
+		int i = 1;
+		int escolha = -1;
+		
+		if(usuario.getTurmasAtivas().isEmpty()) {
+			System.out.println("Sem turmas ativas!");
+			return;
+		}
+		
+		for(Turma c : usuario.getTurmasAtivas()) {
+			System.out.println(i + ") " + c.getCadeira().getNome());
+			i++;
+		}
+		System.out.println(i + ") " + "Voltar");
+		
+		while(escolha != i-1 && (escolha < 0 || escolha >= i))
+			escolha = Integer.parseInt(keyboard.nextLine())-1;
+		
+		if(escolha == i-1)
+			return;
+		
+		usuario.getTurmasAtivas().get(escolha).listarOpcoes();
 	}
 	
 	public static void main(String[] args) {
@@ -73,11 +100,15 @@ public class principal {
 					usuario.adiciona_cadeira();
 					break;
 				case ADD_TURMA:
+					usuario.adiciona_turma();
 					break;
 				case TERMINA_CADEIRA:
 					break;
 				case LISTAR_CADEIRAS:
 					listaCadeiras();
+					break;
+				case LISTAR_TURMAS:
+					listaTurmas();
 					break;
 				case SAVE_QUIT:
 					Persistencia.salva_usuario(usuario);

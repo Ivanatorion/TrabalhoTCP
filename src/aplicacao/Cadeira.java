@@ -37,7 +37,12 @@ public class Cadeira implements Serializable {
 		return cursando;
 	}
 
+	public void setCursando(boolean b) {
+		this.cursando = b;
+	}
+	
 	public List<Cadeira> getPreRequisitos() {
 		return preRequisitos;
 	}
+
 }
