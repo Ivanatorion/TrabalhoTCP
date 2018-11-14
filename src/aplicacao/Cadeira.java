@@ -48,5 +48,9 @@ public class Cadeira implements Serializable {
 	public List<Cadeira> getPreRequisitos() {
 		return preRequisitos;
 	}
+	
+	public void addPreRequisitos(Cadeira cadeira) {
+		this.preRequisitos.add(cadeira);
+	}
 
 }

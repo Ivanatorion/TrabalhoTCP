@@ -1,7 +1,5 @@
 package aplicacao;
 
-import java.util.Calendar;
-
 public class Trabalho {
 	String nome;
 	private int dia;
