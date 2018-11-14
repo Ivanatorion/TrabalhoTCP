@@ -231,5 +231,12 @@ public class Turma implements Serializable{
 		return media;
 	}
 
+	public void addProva(Prova p){
+		this.getProvas().add(p);
+	}
+	
+	public void addTrabalho(Trabalho t){
+		this.getTrabalhos().add(t);
+	}
 }
 
