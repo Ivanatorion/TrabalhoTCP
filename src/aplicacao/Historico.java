@@ -6,6 +6,10 @@ import java.util.ArrayList;
 
 public class Historico implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private List<CadeiraFinalizada> cadeirasFinalizadas;
 	
 	public Historico() {

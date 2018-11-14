@@ -6,6 +6,10 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Usuario implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String nome;
 	private int numeroCartao;
 	private List<Cadeira> cadeiras;

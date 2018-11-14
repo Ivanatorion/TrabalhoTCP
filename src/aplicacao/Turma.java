@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.Locale;
 
 public class Turma implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	Cadeira cadeira;
 	private int ano;
 	private int semestre;

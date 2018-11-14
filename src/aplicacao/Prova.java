@@ -36,5 +36,27 @@ public class Prova {
 	public double getNota() {
 		return nota;
 	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public void setDia(int dia) {
+		this.dia = dia;
+	}
+
+	public void setMes(int mes) {
+		this.mes = mes;
+	}
+
+	public void setPeso(double peso) {
+		this.peso = peso;
+	}
+
+	public void setNota(double nota) {
+		this.nota = nota;
+	}
+
+	
 	
 }
