@@ -187,4 +187,49 @@ public class Turma implements Serializable{
 			}
 		}
 	}
+
+	public double calculaMedia() {
+		double media =0;
+		double somaPeso=0;
+				
+		for(Prova p : provas) {
+			if(p.getNota()>=0) 
+				media += p.getPeso()*p.getNota();
+			somaPeso += p.getPeso();
+			
+		}
+		
+		for(Trabalho t : trabalhos) {
+			if(t.getNota() >= 0)
+				media += t.getPeso()*t.getNota();
+			somaPeso += t.getPeso();
+		}
+		
+		media = media/somaPeso;
+		return media;
+	}
+	
+	public double estimaMedia() {
+		double media = 0;
+		double somaPeso = 0;
+				
+		for(Prova p : provas) {
+			if(p.getNota()>=0) {
+			media += p.getPeso()*p.getNota();
+			somaPeso += p.getPeso();		
+			}
+		}
+		
+		for(Trabalho t : trabalhos) {
+			if(t.getNota()>=0) {
+			media += t.getPeso()*t.getNota();
+			somaPeso += t.getPeso();
+			}
+		}
+		
+		media = media/somaPeso;
+		return media;
+	}
+
 }
+
