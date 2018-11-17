@@ -49,13 +49,14 @@ public class Turma implements Serializable{
 		}
 	}
 	
-	Turma(Cadeira c, int an, int sem, String horario){
+	Turma(Cadeira c, int an, int sem, String horario, String professor){
 		this.provas = new ArrayList<Prova>();
 		this.trabalhos = new ArrayList<Trabalho>();
 		this.cadeira = c;
 		this.ano = an;
 		this.semestre = sem;
 		this.horarios = horario;
+		this.professor = professor;
 	}
 	
 	private static Operacao obtem_operacao() {
@@ -151,6 +152,7 @@ public class Turma implements Serializable{
 		boolean loop = true;
 		System.out.println("Turma de " + this.getCadeira().getNome());
 		System.out.println("Horarios: " + this.getHorarios());
+		System.out.println("Professora: " + this.getProfessor());
 		while(loop) {
 			switch(obtem_operacao()) {
 				case ADD_PROVA:

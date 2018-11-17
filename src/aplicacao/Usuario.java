@@ -99,6 +99,7 @@ public class Usuario implements Serializable {
 		int escolha = -1;
 		int tAno, tSem;
 		String horario;
+		String professor;
 		System.out.println("Escolha uma cadeira: ");
 		for(Cadeira c : this.getCadeiras()) {
 			System.out.println(i + ") " + c.getNome());
@@ -132,6 +133,8 @@ public class Usuario implements Serializable {
 			tAno = Integer.parseInt(keyboard.nextLine());
 			System.out.print("Digite o Semestre: ");
 			tSem = Integer.parseInt(keyboard.nextLine());
+			System.out.print("Digite o nome de professor: ");
+			professor = keyboard.nextLine();
 			System.out.print("Digite os horários: ");
 			horario = keyboard.nextLine();
 		}
@@ -140,7 +143,7 @@ public class Usuario implements Serializable {
 			return;
 		}
 		c.setCursando(true);
-		this.getTurmasAtivas().add(new Turma(c, tAno, tSem, horario));
+		this.getTurmasAtivas().add(new Turma(c, tAno, tSem, horario, professor));
 		System.out.println("Criada nova turma de " + c.getNome());
 		
 	}
