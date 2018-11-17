@@ -17,12 +17,13 @@ public class Turma implements Serializable{
 	private int quantidadeDeFaltas;
 	private String horarios; //Por quê isso é string? 
 	private String professor;
+	int faltas;
 	
 	private List<Trabalho> trabalhos;
 	private List<Prova> provas;
 	
 	private enum Operacao {
-		ADD_PROVA(1), ADD_TRABALHO(2), VER_PROVAS(3), VER_TRABALHOS(4), ESTIMA_MEDIA(5), VOLTAR(6);
+		ADD_PROVA(1), ADD_TRABALHO(2), VER_PROVAS(3), VER_TRABALHOS(4), ESTIMA_MEDIA(5), ADICIONA_FALTA(6), VER_FALTAS(7), VOLTAR(8);
 		
 		private final String[] nomes = {
 				"Adicionar Prova",
@@ -30,6 +31,8 @@ public class Turma implements Serializable{
 				"Ver Provas",
 				"Ver Trabalhos",
 				"Estima Média",
+				"Adiciona Falta",
+				"Ver faltas",
 				"Voltar"
 		};
 		
@@ -57,6 +60,7 @@ public class Turma implements Serializable{
 		this.semestre = sem;
 		this.horarios = horario;
 		this.professor = professor;
+		this.faltas = 0;
 	}
 	
 	private static Operacao obtem_operacao() {
@@ -170,6 +174,13 @@ public class Turma implements Serializable{
 				case ESTIMA_MEDIA:
 					System.out.println("Estimativa: " + this.estimaMedia());
 					break;
+				case ADICIONA_FALTA:
+					this.addFalta();
+					System.out.println("Adicionada falta. Faltas: " + this.getFaltas());
+					break;
+				case VER_FALTAS:
+					System.out.println("Faltas: " + this.getFaltas());
+					break;
 				case VOLTAR:
 					loop = false;
 					break;
@@ -267,6 +278,14 @@ public class Turma implements Serializable{
 
 	public List<Prova> getProvas() {
 		return provas;
+	}
+	
+	public int getFaltas() {
+		return faltas;
+	}
+	
+	public void addFalta() {
+		faltas += 1;
 	}
 }
 
