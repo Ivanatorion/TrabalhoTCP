@@ -68,7 +68,7 @@ public class Usuario implements Serializable {
 	}
 	
 	//Finaliza uma cadeira com uma Turma ativa.
-	//A turma é removida da lista de Turmas ativas e a cadeira é adicionada ao histórico.
+	//A turma ï¿½ removida da lista de Turmas ativas e a cadeira ï¿½ adicionada ao histï¿½rico.
 	public void terminaCadeira(){
 		int i = 1;
 		int escolha = -1;
@@ -93,11 +93,12 @@ public class Usuario implements Serializable {
 		System.out.println("Finalizada a cadeira de " + turmaFinalizada.getCadeira().getNome() + "!");
 	}
 	
-	//Adiciona uma Turma de uma cadeira ainda não finalizada e não cursando à lista de Turmas ativas.
+	//Adiciona uma Turma de uma cadeira ainda nï¿½o finalizada e nï¿½o cursando ï¿½ lista de Turmas ativas.
 	public void adiciona_turma() {
 		int i = 1;
 		int escolha = -1;
 		int tAno, tSem;
+		String horario;
 		System.out.println("Escolha uma cadeira: ");
 		for(Cadeira c : this.getCadeiras()) {
 			System.out.println(i + ") " + c.getNome());
@@ -131,18 +132,20 @@ public class Usuario implements Serializable {
 			tAno = Integer.parseInt(keyboard.nextLine());
 			System.out.print("Digite o Semestre: ");
 			tSem = Integer.parseInt(keyboard.nextLine());
+			System.out.print("Digite os horÃ¡rios: ");
+			horario = keyboard.nextLine();
 		}
 		catch(Exception e){
 			System.out.println("Erro! Tente denovo...");
 			return;
 		}
 		c.setCursando(true);
-		this.getTurmasAtivas().add(new Turma(c, tAno, tSem));
+		this.getTurmasAtivas().add(new Turma(c, tAno, tSem, horario));
 		System.out.println("Criada nova turma de " + c.getNome());
 		
 	}
 	
-	//Verifica se uma prova está próxima
+	//Verifica se uma prova estï¿½ prï¿½xima
 	private boolean estaProximo(Prova p, int aDia, int aMes){
 		if((p.getMes() - aMes)*30 + p.getDia() - aDia < DIAS_PARA_SER_PROXIMO)
 			return true;
@@ -150,7 +153,7 @@ public class Usuario implements Serializable {
 			return false;
 	}
 	
-	//Verifica se um Trabalho está próximo
+	//Verifica se um Trabalho estï¿½ prï¿½ximo
 	private boolean estaProximo(Trabalho t, int aDia, int aMes){
 		if((t.getMes() - aMes)*30 + t.getDia() - aDia < DIAS_PARA_SER_PROXIMO)
 			return true;
@@ -158,7 +161,7 @@ public class Usuario implements Serializable {
 			return false;
 	}
 	
-	//Lista as provas próximas
+	//Lista as provas prï¿½ximas
 	public List<Prova> getProvasProximas(){
 		Calendar cal = Calendar.getInstance();
 		int aDia = cal.get(Calendar.DAY_OF_MONTH);
@@ -175,7 +178,7 @@ public class Usuario implements Serializable {
 		return result;
 	}
 	
-	//Lista os Trabalhos próximos
+	//Lista os Trabalhos prï¿½ximos
 	public List<Trabalho> getTrabalhosProximos(){
 		Calendar cal = Calendar.getInstance();
 		int aDia = cal.get(Calendar.DAY_OF_MONTH);

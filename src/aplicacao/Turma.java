@@ -48,12 +48,13 @@ public class Turma implements Serializable{
 		}
 	}
 	
-	Turma(Cadeira c, int an, int sem){
+	Turma(Cadeira c, int an, int sem, String horario){
 		this.provas = new ArrayList<Prova>();
 		this.trabalhos = new ArrayList<Trabalho>();
 		this.cadeira = c;
 		this.ano = an;
 		this.semestre = sem;
+		this.horarios = horario;
 	}
 	
 	private static Operacao obtem_operacao() {
