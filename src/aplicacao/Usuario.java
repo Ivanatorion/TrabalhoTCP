@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Usuario implements Serializable {
-	private static final int DIAS_PARA_SER_PROXIMO = 8;
+	public static final int DIAS_PARA_SER_PROXIMO = 8;
 	private static final long serialVersionUID = 1L;
 	private String nome;
 	private int numeroCartao;
@@ -25,40 +25,79 @@ public class Usuario implements Serializable {
 		this.historico = new Historico();
 	}
 
+	//Adiciona uma cadeira na lista de cadeiras
 	public void adiciona_cadeira() {
 		String tempNome;
 		String tempCod;
 		int escolha;
 		List<Cadeira> prq = new ArrayList<Cadeira>();
 		
-		System.out.println("Digite o nome da cadeira: ");
+		System.out.print("Digite o nome da cadeira: ");
 		tempNome = keyboard.nextLine();
 		System.out.print("Digite o codigo da cadeira: ");
 		tempCod = keyboard.nextLine();
 		
-		System.out.println("Escolha quais cadeiras sao pre requisitos da nova (0 para terminar): ");
-		
-		int i = 1;
-		for(Cadeira c : this.getCadeiras()) {
-			System.out.println(i + ") " + c.getNome());
-			i++;
+		//Verifica se ja existe cadeira com o mesmo codigo
+		for(Cadeira c: this.getCadeiras()){
+			if(c.getCodigo().equals(tempCod)){
+				System.out.println("Erro: Ja existe uma cadeira com codigo " + tempCod + "! (" + c.getNome() + ")");
+				return;
+			}
 		}
 		
-		escolha = Integer.parseInt(principal.keyboard.nextLine())-1;
-		while(escolha != -1) {
-			if(escolha >= 0 && escolha < this.getCadeiras().size()) {
-				prq.add(this.getCadeiras().get(escolha));
-				System.out.println(this.getCadeiras().get(escolha).getNome() + " adicionada aos pre-requisitos");
+		if(!this.getCadeiras().isEmpty()){
+			System.out.println("Escolha quais cadeiras sao pre requisitos da nova (0 para terminar): ");
+			
+			int i = 1;
+			for(Cadeira c : this.getCadeiras()) {
+				System.out.println(i + ") " + c.getNome());
+				i++;
 			}
+			
 			escolha = Integer.parseInt(principal.keyboard.nextLine())-1;
+			while(escolha != -1) {
+				if(escolha >= 0 && escolha < this.getCadeiras().size()) {
+					prq.add(this.getCadeiras().get(escolha));
+					System.out.println(this.getCadeiras().get(escolha).getNome() + " adicionada aos pre-requisitos");
+				}
+				escolha = Integer.parseInt(principal.keyboard.nextLine())-1;
+			}
 		}
 		
 		cadeiras.add(new Cadeira(tempNome, tempCod, prq));
 	}
 	
+	//Finaliza uma cadeira com uma Turma ativa.
+	//A turma é removida da lista de Turmas ativas e a cadeira é adicionada ao histórico.
+	public void terminaCadeira(){
+		int i = 1;
+		int escolha = -1;
+		for(Turma t : this.getTurmasAtivas()) {
+			System.out.println(i + ") " + t.getCadeira().getNome());
+			i++;
+		}
+		System.out.println(i + ") Cancelar");
+		
+		while(escolha < 0 || escolha >= i) {
+			escolha = Integer.parseInt(principal.keyboard.nextLine())-1;
+		}
+		
+		if(escolha == i-1)
+			return;
+		
+		Turma turmaFinalizada = this.getTurmasAtivas().get(escolha);
+		CadeiraFinalizada cf = new CadeiraFinalizada(turmaFinalizada.getCadeira(), turmaFinalizada.calculaMedia(), turmaFinalizada.getAno(), turmaFinalizada.getSemestre());
+		this.getHistorico().addCadeiraFinalizada(cf);
+		this.getTurmasAtivas().remove(escolha);
+		
+		System.out.println("Finalizada a cadeira de " + turmaFinalizada.getCadeira().getNome() + "!");
+	}
+	
+	//Adiciona uma Turma de uma cadeira ainda não finalizada e não cursando à lista de Turmas ativas.
 	public void adiciona_turma() {
 		int i = 1;
 		int escolha = -1;
+		int tAno, tSem;
 		System.out.println("Escolha uma cadeira: ");
 		for(Cadeira c : this.getCadeiras()) {
 			System.out.println(i + ") " + c.getNome());
@@ -86,16 +125,24 @@ public class Usuario implements Serializable {
 			System.out.println("Voce ja esta cursando " + c.getNome());
 			return;
 		}
+		
+		try{
+			System.out.print("Digite o Ano: ");
+			tAno = Integer.parseInt(keyboard.nextLine());
+			System.out.print("Digite o Semestre: ");
+			tSem = Integer.parseInt(keyboard.nextLine());
+		}
+		catch(Exception e){
+			System.out.println("Erro! Tente denovo...");
+			return;
+		}
 		c.setCursando(true);
-		this.getTurmasAtivas().add(new Turma(c));
+		this.getTurmasAtivas().add(new Turma(c, tAno, tSem));
 		System.out.println("Criada nova turma de " + c.getNome());
 		
 	}
 	
-	public void terminaCadeira(Cadeira c){
-
-	}
-	
+	//Verifica se uma prova está próxima
 	private boolean estaProximo(Prova p, int aDia, int aMes){
 		if((p.getMes() - aMes)*30 + p.getDia() - aDia < DIAS_PARA_SER_PROXIMO)
 			return true;
@@ -103,6 +150,7 @@ public class Usuario implements Serializable {
 			return false;
 	}
 	
+	//Verifica se um Trabalho está próximo
 	private boolean estaProximo(Trabalho t, int aDia, int aMes){
 		if((t.getMes() - aMes)*30 + t.getDia() - aDia < DIAS_PARA_SER_PROXIMO)
 			return true;
@@ -110,6 +158,7 @@ public class Usuario implements Serializable {
 			return false;
 	}
 	
+	//Lista as provas próximas
 	public List<Prova> getProvasProximas(){
 		Calendar cal = Calendar.getInstance();
 		int aDia = cal.get(Calendar.DAY_OF_MONTH);
@@ -126,6 +175,7 @@ public class Usuario implements Serializable {
 		return result;
 	}
 	
+	//Lista os Trabalhos próximos
 	public List<Trabalho> getTrabalhosProximos(){
 		Calendar cal = Calendar.getInstance();
 		int aDia = cal.get(Calendar.DAY_OF_MONTH);

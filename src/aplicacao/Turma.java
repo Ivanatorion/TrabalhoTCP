@@ -11,7 +11,7 @@ public class Turma implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	Cadeira cadeira;
+	private Cadeira cadeira;
 	private int ano;
 	private int semestre;
 	private int quantidadeDeFaltas;
@@ -48,6 +48,14 @@ public class Turma implements Serializable{
 		}
 	}
 	
+	Turma(Cadeira c, int an, int sem){
+		this.provas = new ArrayList<Prova>();
+		this.trabalhos = new ArrayList<Trabalho>();
+		this.cadeira = c;
+		this.ano = an;
+		this.semestre = sem;
+	}
+	
 	private static Operacao obtem_operacao() {
 		
 		for(Operacao opcao : Operacao.values()) {
@@ -66,45 +74,7 @@ public class Turma implements Serializable{
 		}
 		return null; //Nao vai acontecer
 	}
-	
-	Turma(Cadeira c){
-		this.provas = new ArrayList<Prova>();
-		this.trabalhos = new ArrayList<Trabalho>();
-		this.cadeira = c;
-	}
-
-	public Cadeira getCadeira() {
-		return cadeira;
-	}
-
-	public int getAno() {
-		return ano;
-	}
-
-	public int getSemestre() {
-		return semestre;
-	}
-
-	public int getQuantidadeDeFaltas() {
-		return quantidadeDeFaltas;
-	}
-
-	public String getHorarios() {
-		return horarios;
-	}
-
-	public String getProfessor() {
-		return professor;
-	}
-
-	public List<Trabalho> getTrabalhos() {
-		return trabalhos;
-	}
-
-	public List<Prova> getProvas() {
-		return provas;
-	}
-
+   
 	private void addProva() {
 		String n;
 		double peso;
@@ -159,10 +129,12 @@ public class Turma implements Serializable{
 	
 	private void verProvas() {
 		int i = 1;
+		int escolha = -1;
 		for(Prova p : this.getProvas()) {
 			System.out.println(i + ") " + p.getNome() + " " + p.getDia() + "/" + p.getMes());
 			i++;
 		}
+		
 	}
 	
 	private void verTrabalhos() {
@@ -198,6 +170,7 @@ public class Turma implements Serializable{
 		}
 	}
 
+	//Calcula a media final;
 	public double calculaMedia() {
 		double media =0;
 		double somaPeso=0;
@@ -206,7 +179,6 @@ public class Turma implements Serializable{
 			if(p.getNota()>=0) 
 				media += p.getPeso()*p.getNota();
 			somaPeso += p.getPeso();
-			
 		}
 		
 		for(Trabalho t : trabalhos) {
@@ -215,7 +187,10 @@ public class Turma implements Serializable{
 			somaPeso += t.getPeso();
 		}
 		
-		media = media/somaPeso;
+		if(somaPeso == 0)
+			media = 0;
+		else
+			media = media/somaPeso;
 		return media;
 	}
 	
@@ -237,7 +212,10 @@ public class Turma implements Serializable{
 			}
 		}
 		
-		media = media/somaPeso;
+		if(somaPeso == 0)
+			media = 0;
+		else
+			media = media/somaPeso;
 		return media;
 	}
 
@@ -247,6 +225,39 @@ public class Turma implements Serializable{
 	
 	public void addTrabalho(Trabalho t){
 		this.getTrabalhos().add(t);
+	}
+	
+	//Getters
+	public Cadeira getCadeira() {
+		return cadeira;
+	}
+
+	public int getAno() {
+		return ano;
+	}
+
+	public int getSemestre() {
+		return semestre;
+	}
+
+	public int getQuantidadeDeFaltas() {
+		return quantidadeDeFaltas;
+	}
+
+	public String getHorarios() {
+		return horarios;
+	}
+
+	public String getProfessor() {
+		return professor;
+	}
+
+	public List<Trabalho> getTrabalhos() {
+		return trabalhos;
+	}
+
+	public List<Prova> getProvas() {
+		return provas;
 	}
 }
 

@@ -1,6 +1,8 @@
 package aplicacao;
 
-public class CadeiraFinalizada {
+import java.io.Serializable;
+
+public class CadeiraFinalizada implements Serializable{
 	private Cadeira cadeira;
 	private double notaFinal;
 	private int ano;
@@ -12,10 +14,10 @@ public class CadeiraFinalizada {
 		if(nota > -0.001 && nota < 10.001) this.notaFinal = nota;
 		else this.notaFinal = 0.0;
 		
-		if(ano > 0) this.ano = an;
+		if(an > 0) this.ano = an;
 		else this.ano = 0;
 		
-		if(semestre > 0 && semestre < 3) this.semestre = sem;
+		if(sem > 0 && sem < 3) this.semestre = sem;
 		else this.semestre = 1;
 	}
 

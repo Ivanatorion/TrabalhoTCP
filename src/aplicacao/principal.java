@@ -12,7 +12,7 @@ public class principal {
 	public static final Scanner keyboard = new Scanner(System.in);
 	
 	private enum Operacao {
-		ADD_CADEIRA(1), ADD_TURMA(2), TERMINA_CADEIRA(3), LISTAR_CADEIRAS(4), LISTAR_TURMAS(5), ATIV_PROX(6), SAVE_QUIT(7);
+		ADD_CADEIRA(1), ADD_TURMA(2), TERMINA_CADEIRA(3), LISTAR_CADEIRAS(4), LISTAR_TURMAS(5), ATIV_PROX(6), VER_HIST(7), SAVE_QUIT(8);
 		
 		private final String[] nomes = {
 				"Adicionar Cadeira", 
@@ -21,6 +21,7 @@ public class principal {
 				"Listar Cadeiras",
 				"Listar Turmas",
 				"Atividades Proximas",
+				"Ver Historico",
 				"Salvar e Sair"
 		};
 		
@@ -70,12 +71,9 @@ public class principal {
 	}
 	
 	private static void listaCadeiras() {
-		int i = 1;
 		for(Cadeira c : usuario.getCadeiras()) {
-			System.out.println(i + ") " + c.getNome());
-			i++;
+			System.out.println("Cadeira: " + c.getNome() + " | Codigo: " + c.getCodigo());
 		}
-		
 	}
 	
 	private static void listaTurmas() {
@@ -106,11 +104,24 @@ public class principal {
 		List<Prova> provasProximas = usuario.getProvasProximas();
 		List<Trabalho> trabalhosProximos = usuario.getTrabalhosProximos();
 		
+		if(provasProximas.isEmpty() && trabalhosProximos.isEmpty()){
+			System.out.println("Sem atividades nos proximos " + Usuario.DIAS_PARA_SER_PROXIMO + " dias!");
+		}
+		
 		for(Prova p : provasProximas){
-			System.out.println(p.getNome() + "(" + p.getCadeira().getNome() + "): " + p.getDia() + "/" + p.getMes());
+			System.out.println(p.getNome() + " (" + p.getCadeira().getNome() + "): " + p.getDia() + "/" + p.getMes());
 		}
 		for(Trabalho t: trabalhosProximos){
-			System.out.println(t.getNome() + "(" + t.getCadeira().getNome() + "): " + t.getDia() + "/" + t.getMes());
+			System.out.println(t.getNome() + " (" + t.getCadeira().getNome() + "): " + t.getDia() + "/" + t.getMes());
+		}
+	}
+	
+	private static void verHistorico(){
+		if(usuario.getHistorico().getCadeirasFinalizadas().isEmpty()){
+			System.out.println("Sem cadeiras no historico!");
+		}
+		for(CadeiraFinalizada cf: usuario.getHistorico().getCadeirasFinalizadas()){
+			System.out.println("Cadeira: " + cf.getCadeira().getNome() + " | Nota: " + cf.getNotaFinal() + " | Ano: " + cf.getAno() + " | Semestre: " + cf.getSemestre());
 		}
 	}
 	
@@ -128,6 +139,7 @@ public class principal {
 					usuario.adiciona_turma();
 					break;
 				case TERMINA_CADEIRA:
+					usuario.terminaCadeira();
 					break;
 				case LISTAR_CADEIRAS:
 					listaCadeiras();
@@ -137,6 +149,9 @@ public class principal {
 					break;
 				case ATIV_PROX:
 					listaAtividadesProximas();
+					break;
+				case VER_HIST:
+					verHistorico();
 					break;
 				case SAVE_QUIT:
 					Persistencia.salva_usuario(usuario);
