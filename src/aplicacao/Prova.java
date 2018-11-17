@@ -1,18 +1,20 @@
 package aplicacao;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
-public class Prova {
+public class Prova implements Serializable {
 	String nome;
 	private int dia;
 	private int mes;
 	private double peso;
 	private double nota;
+	private Cadeira cadeira;
 	
-	Prova(String n, double p, int dia, int mes){
+	Prova(String n, double p, int dia, int mes, Cadeira c){
 		this.dia = dia;
 		this.mes = mes;
-		
+		this.cadeira = c;
 		this.peso = p;
 		this.nome = n;
 	}
@@ -35,6 +37,10 @@ public class Prova {
 
 	public double getNota() {
 		return nota;
+	}
+	
+	public Cadeira getCadeira(){
+		return cadeira;
 	}
 
 	public void setNome(String nome) {

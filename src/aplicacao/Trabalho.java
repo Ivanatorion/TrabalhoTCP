@@ -1,16 +1,19 @@
 package aplicacao;
 
-public class Trabalho {
+import java.io.Serializable;
+
+public class Trabalho implements Serializable{
 	String nome;
 	private int dia;
 	private int mes;
 	private double peso;
 	private double nota;
+	private Cadeira cadeira;
 	
-	Trabalho(String n, double p, int dia, int mes){
+	Trabalho(String n, double p, int dia, int mes, Cadeira c){
 		this.dia = dia;
 		this.mes = mes;
-		
+		this.cadeira = c;
 		this.peso = p;
 		this.nome = n;
 	}
@@ -33,6 +36,10 @@ public class Trabalho {
 
 	public double getNota() {
 		return nota;
+	}
+	
+	public Cadeira getCadeira(){
+		return cadeira;
 	}
 
 	public void setNome(String nome) {

@@ -1,6 +1,8 @@
 package aplicacao;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 import java.util.Scanner;
 
 public class principal {
@@ -10,7 +12,7 @@ public class principal {
 	public static final Scanner keyboard = new Scanner(System.in);
 	
 	private enum Operacao {
-		ADD_CADEIRA(1), ADD_TURMA(2), TERMINA_CADEIRA(3), LISTAR_CADEIRAS(4), LISTAR_TURMAS(5), SAVE_QUIT(6);
+		ADD_CADEIRA(1), ADD_TURMA(2), TERMINA_CADEIRA(3), LISTAR_CADEIRAS(4), LISTAR_TURMAS(5), ATIV_PROX(6), SAVE_QUIT(7);
 		
 		private final String[] nomes = {
 				"Adicionar Cadeira", 
@@ -18,6 +20,7 @@ public class principal {
 				"Finalizar Cadeira",
 				"Listar Cadeiras",
 				"Listar Turmas",
+				"Atividades Proximas",
 				"Salvar e Sair"
 		};
 		
@@ -43,7 +46,17 @@ public class principal {
 			System.out.println(opcao.getNumero() + " - " + opcao.toString());
 		}
 		
-		return Operacao.values()[Integer.parseInt(keyboard.nextLine())-1]; //Deve precisar de um try/catch
+		boolean ok = false;
+		while(!ok){
+			try{
+				ok = true;
+				return Operacao.values()[Integer.parseInt(principal.keyboard.nextLine())-1];
+			}
+			catch(ArrayIndexOutOfBoundsException e){
+				ok = false;
+			}
+		}
+		return null; //Nao vai acontecer
 	}
 	
 	public static void inicializa() {
@@ -89,6 +102,18 @@ public class principal {
 		usuario.getTurmasAtivas().get(escolha).listarOpcoes();
 	}
 	
+	private static void listaAtividadesProximas(){
+		List<Prova> provasProximas = usuario.getProvasProximas();
+		List<Trabalho> trabalhosProximos = usuario.getTrabalhosProximos();
+		
+		for(Prova p : provasProximas){
+			System.out.println(p.getNome() + "(" + p.getCadeira().getNome() + "): " + p.getDia() + "/" + p.getMes());
+		}
+		for(Trabalho t: trabalhosProximos){
+			System.out.println(t.getNome() + "(" + t.getCadeira().getNome() + "): " + t.getDia() + "/" + t.getMes());
+		}
+	}
+	
 	public static void main(String[] args) {
 		boolean loop = true;
 		 
@@ -109,6 +134,9 @@ public class principal {
 					break;
 				case LISTAR_TURMAS:
 					listaTurmas();
+					break;
+				case ATIV_PROX:
+					listaAtividadesProximas();
 					break;
 				case SAVE_QUIT:
 					Persistencia.salva_usuario(usuario);

@@ -16,8 +16,8 @@ public class TurmaTest {
 	public void start() {
 		c = new Cadeira("TCP", "INF0000");
 		t = new Turma(c);
-		p = new Prova("P1", 0.35, 22, 9);
-		trab = new Trabalho("T1", 0.3, 27, 11);
+		p = new Prova("P1", 0.35, 22, 9, c);
+		trab = new Trabalho("T1", 0.3, 27, 11, c);
 	}
 	
 	@Test

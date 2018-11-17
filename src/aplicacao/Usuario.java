@@ -2,13 +2,12 @@ package aplicacao;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
 
 public class Usuario implements Serializable {
-	/**
-	 * 
-	 */
+	private static final int DIAS_PARA_SER_PROXIMO = 8;
 	private static final long serialVersionUID = 1L;
 	private String nome;
 	private int numeroCartao;
@@ -97,6 +96,51 @@ public class Usuario implements Serializable {
 
 	}
 	
+	private boolean estaProximo(Prova p, int aDia, int aMes){
+		if((p.getMes() - aMes)*30 + p.getDia() - aDia < DIAS_PARA_SER_PROXIMO)
+			return true;
+		else
+			return false;
+	}
+	
+	private boolean estaProximo(Trabalho t, int aDia, int aMes){
+		if((t.getMes() - aMes)*30 + t.getDia() - aDia < DIAS_PARA_SER_PROXIMO)
+			return true;
+		else
+			return false;
+	}
+	
+	public List<Prova> getProvasProximas(){
+		Calendar cal = Calendar.getInstance();
+		int aDia = cal.get(Calendar.DAY_OF_MONTH);
+		int aMes = cal.get(Calendar.MONTH) + 1;
+		List<Prova> result = new ArrayList<Prova>();
+		
+		for(Turma t: turmasAtivas){
+			for(Prova p: t.getProvas()){
+				if(estaProximo(p, aDia, aMes))
+					result.add(p);
+			}
+		}
+		
+		return result;
+	}
+	
+	public List<Trabalho> getTrabalhosProximos(){
+		Calendar cal = Calendar.getInstance();
+		int aDia = cal.get(Calendar.DAY_OF_MONTH);
+		int aMes = cal.get(Calendar.MONTH) + 1;
+		List<Trabalho> result = new ArrayList<Trabalho>();
+		
+		for(Turma t: turmasAtivas){
+			for(Trabalho tr: t.getTrabalhos()){
+				if(estaProximo(tr, aDia, aMes))
+					result.add(tr);
+			}
+		}
+		
+		return result;
+	}
 	
 	//Getters
 	public String getNome() {

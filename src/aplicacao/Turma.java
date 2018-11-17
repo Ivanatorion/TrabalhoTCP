@@ -54,7 +54,17 @@ public class Turma implements Serializable{
 			System.out.println(opcao.getNumero() + " - " + opcao.toString());
 		}
 		
-		return Operacao.values()[Integer.parseInt(principal.keyboard.nextLine())-1]; //Deve precisar de um try/catch
+		boolean ok = false;
+		while(!ok){
+			try{
+				ok = true;
+				return Operacao.values()[Integer.parseInt(principal.keyboard.nextLine())-1];
+			}
+			catch(ArrayIndexOutOfBoundsException e){
+				ok = false;
+			}
+		}
+		return null; //Nao vai acontecer
 	}
 	
 	Turma(Cadeira c){
@@ -116,7 +126,7 @@ public class Turma implements Serializable{
 			return;
 		}
 		
-		this.getProvas().add(new Prova(n, peso, dia, mes));
+		this.getProvas().add(new Prova(n, peso, dia, mes, cadeira));
 		System.out.println("Prova Adicionada!");
 		
 	}
@@ -142,7 +152,7 @@ public class Turma implements Serializable{
 			return;
 		}
 		
-		this.getTrabalhos().add(new Trabalho(n, peso, dia, mes));
+		this.getTrabalhos().add(new Trabalho(n, peso, dia, mes, cadeira));
 		System.out.println("Trabalho Adicionado!");
 		
 	}
