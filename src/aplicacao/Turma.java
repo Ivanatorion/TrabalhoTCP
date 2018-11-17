@@ -15,20 +15,21 @@ public class Turma implements Serializable{
 	private int ano;
 	private int semestre;
 	private int quantidadeDeFaltas;
-	private String horarios; //Por quê isso é string?
+	private String horarios; //Por quê isso é string? 
 	private String professor;
 	
 	private List<Trabalho> trabalhos;
 	private List<Prova> provas;
 	
 	private enum Operacao {
-		ADD_PROVA(1), ADD_TRABALHO(2), VER_PROVAS(3), VER_TRABALHOS(4), VOLTAR(5);
+		ADD_PROVA(1), ADD_TRABALHO(2), VER_PROVAS(3), VER_TRABALHOS(4), ESTIMA_MEDIA(5), VOLTAR(6);
 		
 		private final String[] nomes = {
 				"Adicionar Prova",
 				"Adicionar Trabalho",
 				"Ver Provas",
 				"Ver Trabalhos",
+				"Estima Média",
 				"Voltar"
 		};
 		
@@ -164,8 +165,13 @@ public class Turma implements Serializable{
 				case VER_TRABALHOS:
 					this.verTrabalhos();
 					break;
+				case ESTIMA_MEDIA:
+					System.out.println("Estimativa: " + this.estimaMedia());
+					break;
 				case VOLTAR:
 					loop = false;
+					break;
+				default:
 					break;
 			}
 		}
