@@ -3,6 +3,7 @@ package aplicacao;
 import java.io.Serializable;
 
 public class Trabalho implements Serializable{
+	private static final long serialVersionUID = 1L;
 	String nome;
 	private int dia;
 	private int mes;

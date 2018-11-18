@@ -68,7 +68,7 @@ public class Usuario implements Serializable {
 	}
 	
 	//Finaliza uma cadeira com uma Turma ativa.
-	//A turma � removida da lista de Turmas ativas e a cadeira � adicionada ao hist�rico.
+	//A turma eh removida da lista de Turmas ativas e a cadeira eh adicionada ao historico.
 	public void terminaCadeira(){
 		int i = 1;
 		int escolha = -1;
@@ -93,7 +93,7 @@ public class Usuario implements Serializable {
 		System.out.println("Finalizada a cadeira de " + turmaFinalizada.getCadeira().getNome() + "!");
 	}
 	
-	//Adiciona uma Turma de uma cadeira ainda n�o finalizada e n�o cursando � lista de Turmas ativas.
+	//Adiciona uma Turma de uma cadeira ainda nao finalizada e nao cursando a lista de Turmas ativas.
 	public void adiciona_turma() {
 		int i = 1;
 		int escolha = -1;
@@ -133,9 +133,9 @@ public class Usuario implements Serializable {
 			tAno = Integer.parseInt(keyboard.nextLine());
 			System.out.print("Digite o Semestre: ");
 			tSem = Integer.parseInt(keyboard.nextLine());
-			System.out.print("Digite o nome de professor: ");
+			System.out.print("Digite o nome do professor: ");
 			professor = keyboard.nextLine();
-			System.out.print("Digite os horários: ");
+			System.out.print("Digite os horarios: ");
 			horario = keyboard.nextLine();
 		}
 		catch(Exception e){
@@ -148,23 +148,23 @@ public class Usuario implements Serializable {
 		
 	}
 	
-	//Verifica se uma prova est� pr�xima
+	//Verifica se uma prova esta proxima
 	private boolean estaProximo(Prova p, int aDia, int aMes){
-		if((p.getMes() - aMes)*30 + p.getDia() - aDia < DIAS_PARA_SER_PROXIMO)
+		if((p.getMes() - aMes)*30 + p.getDia() - aDia < DIAS_PARA_SER_PROXIMO && (p.getMes() - aMes)*30 + p.getDia() - aDia >= 0)
 			return true;
 		else
 			return false;
 	}
 	
-	//Verifica se um Trabalho est� pr�ximo
+	//Verifica se um Trabalho esta proximo
 	private boolean estaProximo(Trabalho t, int aDia, int aMes){
-		if((t.getMes() - aMes)*30 + t.getDia() - aDia < DIAS_PARA_SER_PROXIMO)
+		if((t.getMes() - aMes)*30 + t.getDia() - aDia < DIAS_PARA_SER_PROXIMO && (t.getMes() - aMes)*30 + t.getDia() - aDia >= 0)
 			return true;
 		else
 			return false;
 	}
 	
-	//Lista as provas pr�ximas
+	//Lista as provas proximas
 	public List<Prova> getProvasProximas(){
 		Calendar cal = Calendar.getInstance();
 		int aDia = cal.get(Calendar.DAY_OF_MONTH);
@@ -181,7 +181,7 @@ public class Usuario implements Serializable {
 		return result;
 	}
 	
-	//Lista os Trabalhos pr�ximos
+	//Lista os Trabalhos proximos
 	public List<Trabalho> getTrabalhosProximos(){
 		Calendar cal = Calendar.getInstance();
 		int aDia = cal.get(Calendar.DAY_OF_MONTH);

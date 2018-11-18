@@ -1,9 +1,9 @@
 package aplicacao;
 
 import java.io.Serializable;
-import java.util.Calendar;
 
 public class Prova implements Serializable {
+	private static final long serialVersionUID = 1L;
 	String nome;
 	private int dia;
 	private int mes;

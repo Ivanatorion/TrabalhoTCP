@@ -16,13 +16,24 @@ public class Persistencia {
 	private static Usuario novo_usuario() {
 		Usuario usuario;
 		String tempNome;
-		int tempCartao;
+		int tempCartao = 0;
+		boolean ok = false;
 		
 		System.out.println("Usuario nao declarado. Por favor registre um novo");
 		System.out.print("Digite seu nome: ");
 		tempNome = keyboard.nextLine();
-		System.out.print("Digite seu cartao: ");
-		tempCartao = Integer.parseInt(keyboard.nextLine());
+		
+		while(!ok){
+			try{
+				ok = true;
+				System.out.print("Digite seu cartao: ");
+				tempCartao = Integer.parseInt(keyboard.nextLine());
+			}
+			catch(NumberFormatException e){
+				System.out.println("Erro: Cartao invalido!");
+				ok = false;
+			}
+		}
 		
 		usuario = new Usuario(tempNome, tempCartao);
 		

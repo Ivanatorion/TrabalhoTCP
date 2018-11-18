@@ -2,22 +2,15 @@ package aplicacao;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
-import java.util.Scanner;
 
 public class Turma implements Serializable{
-	/**
-	 * 
-	 */
-	public static final Scanner keyboard = new Scanner(System.in);
 	private static final long serialVersionUID = 1L;
 	private Cadeira cadeira;
 	private int ano;
 	private int semestre;
 	private int quantidadeDeFaltas;
-	private String horarios; //Por quÃª isso Ã© string? 
+	private String horarios;
 	private String professor;
 	int faltas;
 	
@@ -34,7 +27,7 @@ public class Turma implements Serializable{
 				"Ver Trabalhos",
 				"Inserir nota de Prova",
 				"Inserir nota de Trabalho",
-				"Estima MÃ©dia",
+				"Estima Media",
 				"Adiciona Falta",
 				"Ver faltas",
 				"Voltar"
@@ -138,115 +131,83 @@ public class Turma implements Serializable{
 		
 	}
 	
+	//Mostra as Provas
 	private void verProvas() {
 		int i = 1;
-		int escolha = -1;
 		for(Prova p : this.getProvas()) {
-			System.out.println(i + ") " + p.getNome() + " " + p.getDia() + "/" + p.getMes());
+			System.out.print(i + ") " + p.getNome() + " " + p.getDia() + "/" + p.getMes());
+			if(p.getNota() > 0.0001)
+				System.out.printf(" Nota: %.2f", p.getNota());
+			System.out.printf("\n");
 			i++;
 		}
 		
 	}
 	
+	//Mostra os Trabalhos
 	private void verTrabalhos() {
 		int i = 1;
 		for(Trabalho t : this.getTrabalhos()) {
-			System.out.println(i + ") " + t.getNome() + " " + t.getDia() + "/" + t.getMes());
+			System.out.print(i + ") " + t.getNome() + " " + t.getDia() + "/" + t.getMes());
+			if(t.getNota() > 0.0001)
+				System.out.printf(" Nota: %.2f", t.getNota());
+			System.out.printf("\n");
 			i++;
 		}
 	}
-	
-	public void listarOpcoes() {
-		boolean loop = true;
-		System.out.println("Turma de " + this.getCadeira().getNome());
-		System.out.println("Horarios: " + this.getHorarios());
-		System.out.println("Professora: " + this.getProfessor());
-		while(loop) {
-			switch(obtem_operacao()) {
-				case ADD_PROVA:
-					this.addProva();
-					break;
-				case ADD_TRABALHO:
-					this.addTrabalho();
-					break;
-				case VER_PROVAS:
-					this.verProvas();
-					break;
-				case VER_TRABALHOS:
-					this.verTrabalhos();
-					break;
-				case NOTA_PROVA:
-					this.insereNotaProva();
-					break;
-				case NOTA_TRABALHO:
-					this.insereNotaTrabalho();
-					break;
-				case ESTIMA_MEDIA:
-					System.out.println("Estimativa: " + this.estimaMedia());
-					break;
-				case ADICIONA_FALTA:
-					this.addFalta();
-					System.out.println("Adicionada falta. Faltas: " + this.getFaltas());
-					break;
-				case VER_FALTAS:
-					System.out.println("Faltas: " + this.getFaltas());
-					break;
-				case VOLTAR:
-					loop = false;
-					break;
-				default:
-					break;
-			}
-		}
-	}
 
-
-	//Insere nota de avaliações;
+	//Insere nota de Prova
 	public void insereNotaProva() {
 		int i = 0;
 		double n = 0;
-		int j = 0;
-		if(provas.size() != 0) {
+		if(this.getProvas().size() != 0) {
 			this.verProvas();
-			i = Integer.parseInt(principal.keyboard.nextLine())-1;
-			for(Prova p : provas) {
-				if(j==i) {
-					System.out.println("Digite a nota da prova");
-					n = keyboard.nextDouble();
-					p.setNota(n);
-					j++;
+			try{
+				i = Integer.parseInt(principal.keyboard.nextLine())-1;
+				if(i >= this.getProvas().size()){
+					System.out.println("Erro! Tente denovo...");
+					return;
 				}
-				else
-					j++;
+				System.out.print("Digite a nota da prova: ");
+				n = Double.parseDouble(principal.keyboard.nextLine());
+				this.getProvas().get(i).setNota(n);
 			}
+			catch(NumberFormatException e){
+				System.out.println("Erro! Tente denovo...");
+				return;
+			}	
 		}
 		else
 			System.out.println("Não há provas nessa turma!");
 	}
 	
+	//Insere nota de Trabalho
 	public void insereNotaTrabalho() {
 		int i = 0;
 		double n = 0;
-		int j = 0;
-		if(trabalhos.size() != 0) {
+	
+		if(this.getTrabalhos().size() != 0) {
 			this.verTrabalhos();
-			i = Integer.parseInt(principal.keyboard.nextLine())-1;
-			for(Trabalho t : trabalhos) {
-				if(j==i) {
-					System.out.println("Digite a nota do trabalho");
-					n = keyboard.nextDouble();
-					t.setNota(n);
-					j++;
+			try{
+				i = Integer.parseInt(principal.keyboard.nextLine())-1;
+				if(i >= this.getTrabalhos().size()){
+					System.out.println("Erro! Tente denovo...");
+					return;
 				}
-				else
-					j++;
+				System.out.print("Digite a nota do trabalho: ");
+				n = Double.parseDouble(principal.keyboard.nextLine());
+				this.getTrabalhos().get(i).setNota(n);
+			}
+			catch(NumberFormatException e){
+				System.out.println("Erro! Tente denovo...");
+				return;
 			}
 		}
 		else
 			System.out.println("Não há trabalhos nessa turma!");
 	}
 	
-	//Calcula a media final;
+	//Calcula a media final
 	public double calculaMedia() {
 		double media =0;
 		double somaPeso=0;
@@ -301,6 +262,51 @@ public class Turma implements Serializable{
 	
 	public void addTrabalho(Trabalho t){
 		this.getTrabalhos().add(t);
+	}
+	
+	//Menu de opcoes relacionadas a Turma
+	public void listarOpcoes() {
+		boolean loop = true;
+		System.out.println("Turma de " + this.getCadeira().getNome());
+		System.out.println("Horarios: " + this.getHorarios());
+		System.out.println("Professor: " + this.getProfessor());
+		while(loop) {
+			switch(obtem_operacao()) {
+				case ADD_PROVA:
+					this.addProva();
+					break;
+				case ADD_TRABALHO:
+					this.addTrabalho();
+					break;
+				case VER_PROVAS:
+					this.verProvas();
+					break;
+				case VER_TRABALHOS:
+					this.verTrabalhos();
+					break;
+				case NOTA_PROVA:
+					this.insereNotaProva();
+					break;
+				case NOTA_TRABALHO:
+					this.insereNotaTrabalho();
+					break;
+				case ESTIMA_MEDIA:
+					System.out.printf("Estimativa: %.2f\n", this.estimaMedia());
+					break;
+				case ADICIONA_FALTA:
+					this.addFalta();
+					System.out.println("Adicionada falta. Faltas: " + this.getFaltas());
+					break;
+				case VER_FALTAS:
+					System.out.println("Faltas: " + this.getFaltas());
+					break;
+				case VOLTAR:
+					loop = false;
+					break;
+				default:
+					break;
+			}
+		}
 	}
 	
 	//Getters

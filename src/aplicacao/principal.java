@@ -1,7 +1,6 @@
 package aplicacao;
 
-import java.util.ArrayList;
-import java.util.Calendar;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -61,9 +60,6 @@ public class principal {
 	}
 	
 	public static void inicializa() {
-		String tempNome;
-		int tempCartao;
-		
 		usuario = Persistencia.carrega_usuario();
 		
 		System.out.println("Nome: " + usuario.getNome());
@@ -76,6 +72,7 @@ public class principal {
 		}
 	}
 	
+	//Mostra a lista de Turmas ativas e lista as opcoes da Turma selecionada
 	private static void listaTurmas() {
 		int i = 1;
 		int escolha = -1;
@@ -100,6 +97,7 @@ public class principal {
 		usuario.getTurmasAtivas().get(escolha).listarOpcoes();
 	}
 	
+	//Lista as Provas e Trabalhos próximos (Dentro de 8 dias) e a Cadeira relacionada
 	private static void listaAtividadesProximas(){
 		List<Prova> provasProximas = usuario.getProvasProximas();
 		List<Trabalho> trabalhosProximos = usuario.getTrabalhosProximos();
@@ -116,12 +114,13 @@ public class principal {
 		}
 	}
 	
+	//Mostra as cadeiras finalizadas
 	private static void verHistorico(){
 		if(usuario.getHistorico().getCadeirasFinalizadas().isEmpty()){
 			System.out.println("Sem cadeiras no historico!");
 		}
 		for(CadeiraFinalizada cf: usuario.getHistorico().getCadeirasFinalizadas()){
-			System.out.println("Cadeira: " + cf.getCadeira().getNome() + " | Nota: " + cf.getNotaFinal() + " | Ano: " + cf.getAno() + " | Semestre: " + cf.getSemestre());
+			System.out.println("Cadeira: " + cf.getCadeira().getNome() + String.format(" | Nota: %.2f", cf.getNotaFinal()) + " | Ano: " + cf.getAno() + " | Semestre: " + cf.getSemestre());
 		}
 	}
 	
@@ -129,7 +128,7 @@ public class principal {
 		boolean loop = true;
 		 
 		inicializa();
-		
+	
 		while(loop) {
 			switch(obtem_operacao()) {
 				case ADD_CADEIRA:
