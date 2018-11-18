@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Scanner;
 
 public class Turma implements Serializable{
 	/**
@@ -23,13 +24,15 @@ public class Turma implements Serializable{
 	private List<Prova> provas;
 	
 	private enum Operacao {
-		ADD_PROVA(1), ADD_TRABALHO(2), VER_PROVAS(3), VER_TRABALHOS(4), ESTIMA_MEDIA(5), ADICIONA_FALTA(6), VER_FALTAS(7), VOLTAR(8);
+		ADD_PROVA(1), ADD_TRABALHO(2), VER_PROVAS(3), VER_TRABALHOS(4), NOTA_PROVA(5), NOTA_TRABALHO(6), ESTIMA_MEDIA(7), ADICIONA_FALTA(8), VER_FALTAS(9), VOLTAR(10);
 		
 		private final String[] nomes = {
 				"Adicionar Prova",
 				"Adicionar Trabalho",
 				"Ver Provas",
 				"Ver Trabalhos",
+				"Inserir nota de Prova",
+				"Inserir nota de Trabalho",
 				"Estima MÃ©dia",
 				"Adiciona Falta",
 				"Ver faltas",
@@ -171,6 +174,12 @@ public class Turma implements Serializable{
 				case VER_TRABALHOS:
 					this.verTrabalhos();
 					break;
+				case NOTA_PROVA:
+					this.insereNotaProva();
+					break;
+				case NOTA_TRABALHO:
+					this.insereNotaTrabalho();
+					break;
 				case ESTIMA_MEDIA:
 					System.out.println("Estimativa: " + this.estimaMedia());
 					break;
@@ -190,6 +199,54 @@ public class Turma implements Serializable{
 		}
 	}
 
+
+	//Insere nota de avaliações;
+	public void insereNotaProva() {
+		Scanner reader = new Scanner(System.in);
+		int i = 0;
+		double n = 0;
+		int j = 0;
+		if(provas.size() != 0) {
+			this.verProvas();
+			i = Integer.parseInt(principal.keyboard.nextLine())-1;
+			for(Prova p : provas) {
+				if(j==i) {
+					System.out.println("Digite a nota da prova");
+					n = reader.nextDouble();
+					p.setNota(n);
+					j++;
+				}
+				else
+					j++;
+			}
+		}
+		else
+			System.out.println("Não há provas nessa turma!");
+	}
+	
+	public void insereNotaTrabalho() {
+		Scanner reader = new Scanner(System.in);
+		int i = 0;
+		double n = 0;
+		int j = 0;
+		if(trabalhos.size() != 0) {
+			this.verTrabalhos();
+			i = Integer.parseInt(principal.keyboard.nextLine())-1;
+			for(Trabalho t : trabalhos) {
+				if(j==i) {
+					System.out.println("Digite a nota do trabalho");
+					n = reader.nextDouble();
+					t.setNota(n);
+					j++;
+				}
+				else
+					j++;
+			}
+		}
+		else
+			System.out.println("Não há trabalhos nessa turma!");
+	}
+	
 	//Calcula a media final;
 	public double calculaMedia() {
 		double media =0;
