@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Scanner;
+
 
 public class Usuario implements Serializable {
 	public static final int DIAS_PARA_SER_PROXIMO = 8;
@@ -14,8 +14,6 @@ public class Usuario implements Serializable {
 	private List<Cadeira> cadeiras;
 	private List<Turma> turmasAtivas;
 	private Historico historico;
-	
-	private static final Scanner keyboard = principal.keyboard;;
 	
 	Usuario(String nomeUs, int nCartao){
 		this.nome = nomeUs;
@@ -31,7 +29,7 @@ public class Usuario implements Serializable {
 	}
 	
 
-	// adiciona turma
+	//Adiciona Turma
 	public void adiciona_turma(Turma turma) {
 		this.getTurmasAtivas().add(turma);
 	}

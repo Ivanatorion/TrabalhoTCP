@@ -41,95 +41,9 @@ public class principal {
 		}
 	}
 	
-	private static Operacao obtem_operacao() {
-		
-		for(Operacao opcao : Operacao.values()) {
-			System.out.println(opcao.getNumero() + " - " + opcao.toString());
-		}
-		
-		boolean ok = false;
-		while(!ok){
-			try{
-				ok = true;
-				return Operacao.values()[Integer.parseInt(principal.keyboard.nextLine())-1];
-			}
-			catch(ArrayIndexOutOfBoundsException e){
-				ok = false;
-			}
-		}
-		return null; //Nao vai acontecer
-	}
-	
-	public static void inicializa() {
-		usuario = Persistencia.carrega_usuario();
-		
-		System.out.println("Nome: " + usuario.getNome());
-		System.out.println("Cartao: " + usuario.getNumeroCartao());
-	}
-	
-	private static void listaCadeiras() {
-		for(Cadeira c : usuario.getCadeiras()) {
-			System.out.println("Cadeira: " + c.getNome() + " | Codigo: " + c.getCodigo());
-		}
-	}
-	
-	//Mostra a lista de Turmas ativas e lista as opcoes da Turma selecionada
-	private static void listaTurmas() {
-		int i = 1;
-		int escolha = -1;
-		
-		if(usuario.getTurmasAtivas().isEmpty()) {
-			System.out.println("Sem turmas ativas!");
-			return;
-		}
-		
-		for(Turma c : usuario.getTurmasAtivas()) {
-			System.out.println(i + ") " + c.getCadeira().getNome());
-			i++;
-		}
-		System.out.println(i + ") " + "Voltar");
-		
-		while(escolha != i-1 && (escolha < 0 || escolha >= i))
-			escolha = Integer.parseInt(keyboard.nextLine())-1;
-		
-		if(escolha == i-1)
-			return;
-		
-		usuario.getTurmasAtivas().get(escolha).listarOpcoes();
-	}
-	
-	//Lista as Provas e Trabalhos pr�ximos (Dentro de 8 dias) e a Cadeira relacionada
-	private static void listaAtividadesProximas(){
-		List<Prova> provasProximas = usuario.getProvasProximas();
-		List<Trabalho> trabalhosProximos = usuario.getTrabalhosProximos();
-		
-		if(provasProximas.isEmpty() && trabalhosProximos.isEmpty()){
-			System.out.println("Sem atividades nos proximos " + Usuario.DIAS_PARA_SER_PROXIMO + " dias!");
-		}
-		
-		for(Prova p : provasProximas){
-			System.out.println(p.getNome() + " (" + p.getCadeira().getNome() + "): " + p.getDia() + "/" + p.getMes());
-		}
-		for(Trabalho t: trabalhosProximos){
-			System.out.println(t.getNome() + " (" + t.getCadeira().getNome() + "): " + t.getDia() + "/" + t.getMes());
-		}
-	}
-	
-	//Mostra as cadeiras finalizadas
-	private static void verHistorico(){
-		if(usuario.getHistorico().getCadeirasFinalizadas().isEmpty()){
-			System.out.println("Sem cadeiras no historico!");
-		}
-		for(CadeiraFinalizada cf: usuario.getHistorico().getCadeirasFinalizadas()){
-			System.out.println("Cadeira: " + cf.getCadeira().getNome() + String.format(" | Nota: %.2f", cf.getNotaFinal()) + " | Ano: " + cf.getAno() + " | Semestre: " + cf.getSemestre());
-		}
-	}
-	
 	public static void main(String[] args) {
-		boolean loop = true;
-		 
+		boolean loop = true;	 
 		inicializa();
-	
 		while(loop) {
 			switch(obtem_operacao()) {
 				case ADD_CADEIRA:
@@ -159,15 +73,108 @@ public class principal {
 					break;
 			}
 		}
-		
 		keyboard.close();
+	}
+	
+	private static Operacao obtem_operacao() {
+		
+		for(Operacao opcao : Operacao.values()) {
+			System.out.println(opcao.getNumero() + " - " + opcao.toString());
+		}
+		
+		boolean ok = false;
+		while(!ok){
+			try{
+				ok = true;
+				return Operacao.values()[Integer.parseInt(principal.keyboard.nextLine())-1];
+			}
+			catch(ArrayIndexOutOfBoundsException e){
+				ok = false;
+			}
+			catch(NumberFormatException e){
+				ok = false;
+			}
+		}
+		return null; //Nao vai acontecer
+	}
+	
+	private static void inicializa() {
+		usuario = Persistencia.carrega_usuario();
+		
+		System.out.println("Nome: " + usuario.getNome());
+		System.out.println("Cartao: " + usuario.getNumeroCartao());
+	}
+	
+	private static void listaCadeiras() {
+		for(Cadeira c : usuario.getCadeiras()) {
+			System.out.println("Cadeira: " + c.getNome() + " | Codigo: " + c.getCodigo());
+		}
+	}
+	
+	//Mostra a lista de Turmas ativas e lista as opcoes da Turma selecionada
+	private static void listaTurmas() {
+		int i = 1;
+		int escolha = -1;
+		
+		if(usuario.getTurmasAtivas().isEmpty()) {
+			System.out.println("Sem turmas ativas!");
+			return;
+		}
+		
+		for(Turma c : usuario.getTurmasAtivas()) {
+			System.out.println(i + ") " + c.getCadeira().getNome());
+			i++;
+		}
+		System.out.println(i + ") " + "Voltar");
+		
+		while(escolha != i-1 && (escolha < 0 || escolha >= i)){
+			try{
+				escolha = Integer.parseInt(keyboard.nextLine())-1;
+			}
+			catch(NumberFormatException e){
+				//Nao faz nada
+			}
+		}
+		
+		if(escolha == i-1)
+			return;
+		
+		usuario.getTurmasAtivas().get(escolha).listarOpcoes();
+	}
+	
+	//Lista as Provas e Trabalhos proximos (Dentro de 8 dias) e a Cadeira relacionada
+	private static void listaAtividadesProximas(){
+		List<Prova> provasProximas = usuario.getProvasProximas();
+		List<Trabalho> trabalhosProximos = usuario.getTrabalhosProximos();
+		
+		if(provasProximas.isEmpty() && trabalhosProximos.isEmpty()){
+			System.out.println("Sem atividades nos proximos " + Usuario.DIAS_PARA_SER_PROXIMO + " dias!");
+		}
+		
+		for(Prova p : provasProximas){
+			System.out.println(p.getNome() + " (" + p.getCadeira().getNome() + "): " + p.getDia() + "/" + p.getMes());
+		}
+		for(Trabalho t: trabalhosProximos){
+			System.out.println(t.getNome() + " (" + t.getCadeira().getNome() + "): " + t.getDia() + "/" + t.getMes());
+		}
+	}
+	
+	//Mostra as cadeiras finalizadas
+	private static void verHistorico(){
+		if(usuario.getHistorico().getCadeirasFinalizadas().isEmpty()){
+			System.out.println("Sem cadeiras no historico!");
+		}
+		for(CadeiraFinalizada cf: usuario.getHistorico().getCadeirasFinalizadas()){
+			System.out.println("Cadeira: " + cf.getCadeira().getNome() + String.format(" | Nota: %.2f", cf.getNotaFinal()) + " | Ano: " + cf.getAno() + " | Semestre: " + cf.getSemestre());
+		}
 	}
 	
 	//Adiciona uma Turma de uma cadeira ainda nao finalizada e nao cursando a lista de Turmas ativas.
 	private static void adicionaCadeira() {
 		String tempNome;
 		String tempCod;
-		int escolha;
+		int escolha = 0;
+		boolean ok = false;
 		List<Cadeira> prq = new ArrayList<Cadeira>();
 		
 		System.out.print("Digite o nome da cadeira: ");
@@ -192,14 +199,15 @@ public class principal {
 				i++;
 			}
 			
-			while(true) {
+			while(!ok) {
 				try {
 					escolha = Integer.parseInt(keyboard.nextLine())-1;
-					break;
+					ok = true;
 				} catch(NumberFormatException e) {
-					continue;
+					ok = false;
 				}
 			}
+			
 			while(escolha != -1) {
 				if(escolha >= 0 && escolha < usuario.getCadeiras().size()) {
 					prq.add(usuario.getCadeiras().get(escolha));
@@ -215,10 +223,7 @@ public class principal {
 				}
 			}
 		}
-		
-		usuario.adiciona_cadeira(new Cadeira(tempNome, tempCod, prq));
-		
-		
+		usuario.adiciona_cadeira(new Cadeira(tempNome, tempCod, prq));	
 	}
 	
 	private static void adicionaTurma() {
@@ -238,10 +243,9 @@ public class principal {
 			try {
 				escolha = Integer.parseInt(keyboard.nextLine())-1;
 			} catch(NumberFormatException e) {
-				continue;
+				//Nao faz nada
 			}
-		}
-			
+		}		
 		
 		if(escolha == i-1)
 			return;
@@ -284,7 +288,7 @@ public class principal {
 	
 	//Finaliza uma cadeira com uma Turma ativa.
 	//A turma eh removida da lista de Turmas ativas e a cadeira eh adicionada ao historico.
-	public static void terminaCadeira() {
+	private static void terminaCadeira() {
 		int i = 1;
 		int escolha = -1;
 		for(Turma t : usuario.getTurmasAtivas()) {
@@ -297,7 +301,7 @@ public class principal {
 			try {
 				escolha = Integer.parseInt(principal.keyboard.nextLine())-1;
 			} catch(NumberFormatException e) {
-				continue;
+				//Nao faz nada
 			}
 		}
 		

@@ -3,6 +3,7 @@ package aplicacao;
 import java.io.Serializable;
 
 public class CadeiraFinalizada implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private Cadeira cadeira;
 	private double notaFinal;
 	private int ano;
