@@ -11,6 +11,7 @@ public class Turma implements Serializable{
 	/**
 	 * 
 	 */
+	public static final Scanner keyboard = new Scanner(System.in);
 	private static final long serialVersionUID = 1L;
 	private Cadeira cadeira;
 	private int ano;
@@ -202,7 +203,6 @@ public class Turma implements Serializable{
 
 	//Insere nota de avaliações;
 	public void insereNotaProva() {
-		Scanner reader = new Scanner(System.in);
 		int i = 0;
 		double n = 0;
 		int j = 0;
@@ -212,7 +212,7 @@ public class Turma implements Serializable{
 			for(Prova p : provas) {
 				if(j==i) {
 					System.out.println("Digite a nota da prova");
-					n = reader.nextDouble();
+					n = keyboard.nextDouble();
 					p.setNota(n);
 					j++;
 				}
@@ -225,7 +225,6 @@ public class Turma implements Serializable{
 	}
 	
 	public void insereNotaTrabalho() {
-		Scanner reader = new Scanner(System.in);
 		int i = 0;
 		double n = 0;
 		int j = 0;
@@ -235,7 +234,7 @@ public class Turma implements Serializable{
 			for(Trabalho t : trabalhos) {
 				if(j==i) {
 					System.out.println("Digite a nota do trabalho");
-					n = reader.nextDouble();
+					n = keyboard.nextDouble();
 					t.setNota(n);
 					j++;
 				}
