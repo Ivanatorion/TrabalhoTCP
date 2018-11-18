@@ -2,7 +2,9 @@ package aplicacao;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Cadeira implements Serializable {
 	
@@ -10,13 +12,13 @@ public class Cadeira implements Serializable {
 	private String nome;
 	private String codigo;
 	private boolean cursando;
-	private List<Cadeira> preRequisitos;
+	private Set<Cadeira> preRequisitos;
 	
 	Cadeira(String cNome, String cCod, List<Cadeira> prq){
 		this.nome = cNome;
 		this.codigo = cCod;
 		this.cursando = false;
-		this.preRequisitos = new ArrayList<Cadeira>();
+		this.preRequisitos = new HashSet<Cadeira>();
 		this.preRequisitos.addAll(prq);
 	}
 	
@@ -24,7 +26,7 @@ public class Cadeira implements Serializable {
 		this.nome = cNome;
 		this.codigo = cCod;
 		this.cursando = false;
-		this.preRequisitos = new ArrayList<Cadeira>();
+		this.preRequisitos = new HashSet<Cadeira>();
 	}
 
 	public String getNome() {
@@ -43,7 +45,7 @@ public class Cadeira implements Serializable {
 		this.cursando = b;
 	}
 	
-	public List<Cadeira> getPreRequisitos() {
+	public Set<Cadeira> getPreRequisitos() {
 		return preRequisitos;
 	}
 	
