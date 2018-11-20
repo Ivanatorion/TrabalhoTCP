@@ -2,7 +2,7 @@ package aplicacao;
 
 import java.io.Serializable;
 
-public class Trabalho implements Serializable{
+public class Avaliacao implements Serializable {
 	private static final long serialVersionUID = 1L;
 	String nome;
 	private int dia;
@@ -11,14 +11,14 @@ public class Trabalho implements Serializable{
 	private double nota;
 	private Cadeira cadeira;
 	
-	Trabalho(String n, double p, int dia, int mes, Cadeira c){
+	Avaliacao(String n, double p, int dia, int mes, Cadeira c){
 		this.dia = dia;
 		this.mes = mes;
 		this.cadeira = c;
 		this.peso = p;
 		this.nome = n;
 	}
-	
+
 	public String getNome() {
 		return nome;
 	}
@@ -62,6 +62,7 @@ public class Trabalho implements Serializable{
 	public void setNota(double nota) {
 		this.nota = nota;
 	}
+
 	
 	
 }

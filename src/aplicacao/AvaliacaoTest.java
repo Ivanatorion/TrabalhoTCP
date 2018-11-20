@@ -5,31 +5,29 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-public class TurmaTest {
+public class AvaliacaoTest {
 
 	Turma t;
 	Cadeira c;
-	Prova p;
-	Trabalho trab;
+	Avaliacao p;
+	Avaliacao trab;
 
 	@Before
 	public void start() {
 		c = new Cadeira("TCP", "INF0000");
 		t = new Turma(c, 2018, 2, "Segunda e Quarta, 10:30", "Kazuki");
-		p = new Prova("P1", 0.35, 22, 9, c);
-		trab = new Trabalho("T1", 0.3, 27, 11, c);
+		p = new Avaliacao("P1", 0.35, 22, 9, c);
+		trab = new Avaliacao("T1", 0.3, 27, 11, c);
 	}
 	
 	@Test
 	public void testNovaTurma() {
-		assertTrue(t.getProvas().isEmpty());
-		assertTrue(t.getTrabalhos().isEmpty());
+		assertTrue(t.getAvaliacoes().isEmpty());
 	}
 	
 	@Test
 	public void testProvaETrabalho() {
-		t.addProva(p);
-		t.addTrabalho(trab);
-		assertTrue(t.getTrabalhos().contains(trab) && t.getProvas().contains(p));
+		t.addAvaliacao(p);
+		assertTrue(t.getAvaliacoes().contains(p));
 	}
 }

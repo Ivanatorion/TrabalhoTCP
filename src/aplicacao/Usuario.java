@@ -34,55 +34,32 @@ public class Usuario implements Serializable {
 		this.getTurmasAtivas().add(turma);
 	}
 	
-	//Verifica se uma prova esta proxima
-	private boolean estaProximo(Prova p, int aDia, int aMes){
+	//Verifica se uma avaliacao esta proxima
+	private boolean estaProximo(Avaliacao p, int aDia, int aMes){
 		if((p.getMes() - aMes)*30 + p.getDia() - aDia < DIAS_PARA_SER_PROXIMO && (p.getMes() - aMes)*30 + p.getDia() - aDia >= 0)
 			return true;
 		else
 			return false;
 	}
 	
-	//Verifica se um Trabalho esta proximo
-	private boolean estaProximo(Trabalho t, int aDia, int aMes){
-		if((t.getMes() - aMes)*30 + t.getDia() - aDia < DIAS_PARA_SER_PROXIMO && (t.getMes() - aMes)*30 + t.getDia() - aDia >= 0)
-			return true;
-		else
-			return false;
-	}
 	
-	//Lista as provas proximas
-	public List<Prova> getProvasProximas(){
+	//Lista as avaliacoes proximas
+	public List<Avaliacao> getAvaliacoesProximas(){
 		Calendar cal = Calendar.getInstance();
 		int aDia = cal.get(Calendar.DAY_OF_MONTH);
 		int aMes = cal.get(Calendar.MONTH) + 1;
-		List<Prova> result = new ArrayList<Prova>();
+		List<Avaliacao> result = new ArrayList<Avaliacao>();
 		
 		for(Turma t: turmasAtivas){
-			for(Prova p: t.getProvas()){
-				if(estaProximo(p, aDia, aMes))
-					result.add(p);
+			for(Avaliacao a: t.getAvaliacoes()){
+				if(estaProximo(a, aDia, aMes))
+					result.add(a);
 			}
 		}
 		
 		return result;
 	}
 	
-	//Lista os Trabalhos proximos
-	public List<Trabalho> getTrabalhosProximos(){
-		Calendar cal = Calendar.getInstance();
-		int aDia = cal.get(Calendar.DAY_OF_MONTH);
-		int aMes = cal.get(Calendar.MONTH) + 1;
-		List<Trabalho> result = new ArrayList<Trabalho>();
-		
-		for(Turma t: turmasAtivas){
-			for(Trabalho tr: t.getTrabalhos()){
-				if(estaProximo(tr, aDia, aMes))
-					result.add(tr);
-			}
-		}
-		
-		return result;
-	}
 	
 	//Getters
 	public String getNome() {

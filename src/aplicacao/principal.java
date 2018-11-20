@@ -144,18 +144,14 @@ public class principal {
 	
 	//Lista as Provas e Trabalhos proximos (Dentro de 8 dias) e a Cadeira relacionada
 	private static void listaAtividadesProximas(){
-		List<Prova> provasProximas = usuario.getProvasProximas();
-		List<Trabalho> trabalhosProximos = usuario.getTrabalhosProximos();
+		List<Avaliacao> avaliacoesProximas = usuario.getAvaliacoesProximas();
 		
-		if(provasProximas.isEmpty() && trabalhosProximos.isEmpty()){
+		if(avaliacoesProximas.isEmpty()){
 			System.out.println("Sem atividades nos proximos " + Usuario.DIAS_PARA_SER_PROXIMO + " dias!");
 		}
 		
-		for(Prova p : provasProximas){
-			System.out.println(p.getNome() + " (" + p.getCadeira().getNome() + "): " + p.getDia() + "/" + p.getMes());
-		}
-		for(Trabalho t: trabalhosProximos){
-			System.out.println(t.getNome() + " (" + t.getCadeira().getNome() + "): " + t.getDia() + "/" + t.getMes());
+		for(Avaliacao a : avaliacoesProximas){
+			System.out.println(a.getNome() + " (" + a.getCadeira().getNome() + "): " + a.getDia() + "/" + a.getMes());
 		}
 	}
 	

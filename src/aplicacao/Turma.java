@@ -14,19 +14,15 @@ public class Turma implements Serializable{
 	private String professor;
 	int faltas;
 	
-	private List<Trabalho> trabalhos;
-	private List<Prova> provas;
+	private List<Avaliacao> avaliacoes;
 	
 	private enum Operacao {
-		ADD_PROVA(1), ADD_TRABALHO(2), VER_PROVAS(3), VER_TRABALHOS(4), NOTA_PROVA(5), NOTA_TRABALHO(6), ESTIMA_MEDIA(7), ADICIONA_FALTA(8), VER_FALTAS(9), VOLTAR(10);
+		ADD_AVALIACAO(1), VER_AVALIACOES(2), NOTA_AVALIACAO(3), ESTIMA_MEDIA(4), ADICIONA_FALTA(5), VER_FALTAS(6), VOLTAR(7);
 		
 		private final String[] nomes = {
-				"Adicionar Prova",
-				"Adicionar Trabalho",
-				"Ver Provas",
-				"Ver Trabalhos",
-				"Inserir nota de Prova",
-				"Inserir nota de Trabalho",
+				"Adicionar Avaliacao",
+				"Ver Avaliacoes",
+				"Inserir nota de Avaliacao",
 				"Estima Media",
 				"Adiciona Falta",
 				"Ver faltas",
@@ -50,8 +46,7 @@ public class Turma implements Serializable{
 	}
 	
 	Turma(Cadeira c, int an, int sem, String horario, String professor){
-		this.provas = new ArrayList<Prova>();
-		this.trabalhos = new ArrayList<Trabalho>();
+		this.avaliacoes = new ArrayList<Avaliacao>();
 		this.cadeira = c;
 		this.ano = an;
 		this.semestre = sem;
@@ -79,17 +74,17 @@ public class Turma implements Serializable{
 		return null; //Nao vai acontecer
 	}
    
-	private void addProva() {
+	private void addAvaliacao() {
 		String n;
 		double peso;
 		int dia, mes;
 		
 		try {
-			System.out.println("Digite o nome da prova: ");
+			System.out.println("Digite o nome da Avaliacao: ");
 			n = principal.keyboard.nextLine();
-			System.out.println("Digite o peso da prova (0 - 1): ");
+			System.out.println("Digite o peso da Avaliacao (0 - 1): ");
 			peso = Double.parseDouble(principal.keyboard.nextLine());
-			System.out.println("Digite a Data da prova");
+			System.out.println("Digite a Data da Avaliacao");
 			System.out.print("Mes: ");
 			mes = Integer.parseInt(principal.keyboard.nextLine());
 			System.out.print("Dia: ");
@@ -100,77 +95,42 @@ public class Turma implements Serializable{
 			return;
 		}
 		
-		this.getProvas().add(new Prova(n, peso, dia, mes, cadeira));
-		System.out.println("Prova Adicionada!");
+		this.getAvaliacoes().add(new Avaliacao(n, peso, dia, mes, cadeira));
+		System.out.println("Avaliacao Adicionada!");
 		
 	}
 	
-	private void addTrabalho() {
-		String n;
-		double peso;
-		int dia, mes;
-		
-		try {
-			System.out.println("Digite o nome do trabalho: ");
-			n = principal.keyboard.nextLine();
-			System.out.println("Digite o peso do trabalho (0 - 1): ");
-			peso = Double.parseDouble(principal.keyboard.nextLine());
-			System.out.println("Digite a Data do trabalho");
-			System.out.print("Mes: ");
-			mes = Integer.parseInt(principal.keyboard.nextLine());
-			System.out.print("Dia: ");
-			dia = Integer.parseInt(principal.keyboard.nextLine());
-		}
-		catch (Exception e) {
-			System.out.println("ERRO! Tente denovo...");
-			return;
-		}
-		
-		this.getTrabalhos().add(new Trabalho(n, peso, dia, mes, cadeira));
-		System.out.println("Trabalho Adicionado!");
-		
-	}
+
 	
-	//Mostra as Provas
-	private void verProvas() {
+	//Mostra as Avaliacoes
+	private void verAvaliacoes() {
 		int i = 1;
-		for(Prova p : this.getProvas()) {
-			System.out.print(i + ") " + p.getNome() + " " + p.getDia() + "/" + p.getMes());
-			if(p.getNota() > 0.0001)
-				System.out.printf(" Nota: %.2f", p.getNota());
+		for(Avaliacao a : this.getAvaliacoes()) {
+			System.out.print(i + ") " + a.getNome() + " " + a.getDia() + "/" + a.getMes());
+			if(a.getNota() > 0.0001)
+				System.out.printf(" Nota: %.2f", a.getNota());
 			System.out.printf("\n");
 			i++;
 		}
 		
 	}
 	
-	//Mostra os Trabalhos
-	private void verTrabalhos() {
-		int i = 1;
-		for(Trabalho t : this.getTrabalhos()) {
-			System.out.print(i + ") " + t.getNome() + " " + t.getDia() + "/" + t.getMes());
-			if(t.getNota() > 0.0001)
-				System.out.printf(" Nota: %.2f", t.getNota());
-			System.out.printf("\n");
-			i++;
-		}
-	}
 
 	//Insere nota de Prova
-	public void insereNotaProva() {
+	public void insereNotaAvaliacao() {
 		int i = 0;
 		double n = 0;
-		if(this.getProvas().size() != 0) {
-			this.verProvas();
+		if(this.getAvaliacoes().size() != 0) {
+			this.verAvaliacoes();
 			try{
 				i = Integer.parseInt(principal.keyboard.nextLine())-1;
-				if(i >= this.getProvas().size()){
+				if(i >= this.getAvaliacoes().size()){
 					System.out.println("Erro! Tente denovo...");
 					return;
 				}
-				System.out.print("Digite a nota da prova: ");
+				System.out.print("Digite a nota da Avaliacao: ");
 				n = Double.parseDouble(principal.keyboard.nextLine());
-				this.getProvas().get(i).setNota(n);
+				this.getAvaliacoes().get(i).setNota(n);
 			}
 			catch(NumberFormatException e){
 				System.out.println("Erro! Tente denovo...");
@@ -178,52 +138,21 @@ public class Turma implements Serializable{
 			}	
 		}
 		else
-			System.out.println("Não há provas nessa turma!");
+			System.out.println("Não há Avaliacao nessa turma!");
 	}
 	
-	//Insere nota de Trabalho
-	public void insereNotaTrabalho() {
-		int i = 0;
-		double n = 0;
-	
-		if(this.getTrabalhos().size() != 0) {
-			this.verTrabalhos();
-			try{
-				i = Integer.parseInt(principal.keyboard.nextLine())-1;
-				if(i >= this.getTrabalhos().size()){
-					System.out.println("Erro! Tente denovo...");
-					return;
-				}
-				System.out.print("Digite a nota do trabalho: ");
-				n = Double.parseDouble(principal.keyboard.nextLine());
-				this.getTrabalhos().get(i).setNota(n);
-			}
-			catch(NumberFormatException e){
-				System.out.println("Erro! Tente denovo...");
-				return;
-			}
-		}
-		else
-			System.out.println("Não há trabalhos nessa turma!");
-	}
 	
 	//Calcula a media final
 	public double calculaMedia() {
 		double media =0;
 		double somaPeso=0;
 				
-		for(Prova p : provas) {
-			if(p.getNota()>=0) 
-				media += p.getPeso()*p.getNota();
-			somaPeso += p.getPeso();
+		for(Avaliacao a : avaliacoes) {
+			if(a.getNota()>=0) 
+				media += a.getPeso()*a.getNota();
+			somaPeso += a.getPeso();
 		}
-		
-		for(Trabalho t : trabalhos) {
-			if(t.getNota() >= 0)
-				media += t.getPeso()*t.getNota();
-			somaPeso += t.getPeso();
-		}
-		
+				
 		if(somaPeso == 0)
 			media = 0;
 		else
@@ -235,17 +164,10 @@ public class Turma implements Serializable{
 		double media = 0;
 		double somaPeso = 0;
 				
-		for(Prova p : provas) {
-			if(p.getNota()>=0) {
-			media += p.getPeso()*p.getNota();
-			somaPeso += p.getPeso();		
-			}
-		}
-		
-		for(Trabalho t : trabalhos) {
-			if(t.getNota()>=0) {
-			media += t.getPeso()*t.getNota();
-			somaPeso += t.getPeso();
+		for(Avaliacao a : avaliacoes) {
+			if(a.getNota()>=0) {
+			media += a.getPeso()*a.getNota();
+			somaPeso += a.getPeso();		
 			}
 		}
 		
@@ -256,14 +178,11 @@ public class Turma implements Serializable{
 		return media;
 	}
 
-	public void addProva(Prova p){
-		this.getProvas().add(p);
+	public void addAvaliacao(Avaliacao a){
+		this.getAvaliacoes().add(a);
 	}
 	
-	public void addTrabalho(Trabalho t){
-		this.getTrabalhos().add(t);
-	}
-	
+
 	//Menu de opcoes relacionadas a Turma
 	public void listarOpcoes() {
 		boolean loop = true;
@@ -272,23 +191,14 @@ public class Turma implements Serializable{
 		System.out.println("Professor: " + this.getProfessor());
 		while(loop) {
 			switch(obtem_operacao()) {
-				case ADD_PROVA:
-					this.addProva();
+				case ADD_AVALIACAO:
+					this.addAvaliacao();
 					break;
-				case ADD_TRABALHO:
-					this.addTrabalho();
+				case VER_AVALIACOES:
+					this.verAvaliacoes();
 					break;
-				case VER_PROVAS:
-					this.verProvas();
-					break;
-				case VER_TRABALHOS:
-					this.verTrabalhos();
-					break;
-				case NOTA_PROVA:
-					this.insereNotaProva();
-					break;
-				case NOTA_TRABALHO:
-					this.insereNotaTrabalho();
+				case NOTA_AVALIACAO:
+					this.insereNotaAvaliacao();
 					break;
 				case ESTIMA_MEDIA:
 					System.out.printf("Estimativa: %.2f\n", this.estimaMedia());
@@ -334,12 +244,9 @@ public class Turma implements Serializable{
 		return professor;
 	}
 
-	public List<Trabalho> getTrabalhos() {
-		return trabalhos;
-	}
 
-	public List<Prova> getProvas() {
-		return provas;
+	public List<Avaliacao> getAvaliacoes() {
+		return avaliacoes;
 	}
 	
 	public int getFaltas() {
