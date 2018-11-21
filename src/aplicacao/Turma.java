@@ -9,10 +9,10 @@ public class Turma implements Serializable{
 	private Cadeira cadeira;
 	private int ano;
 	private int semestre;
-	private int quantidadeDeFaltas;
+	// private int quantidadeDeFaltas;
 	private String horarios;
 	private String professor;
-	int faltas;
+	private int faltas;
 	
 	private List<Avaliacao> avaliacoes;
 	
@@ -138,7 +138,7 @@ public class Turma implements Serializable{
 			}	
 		}
 		else
-			System.out.println("Não há Avaliacao nessa turma!");
+			System.out.println("Nï¿½o hï¿½ Avaliacao nessa turma!");
 	}
 	
 	
@@ -232,10 +232,6 @@ public class Turma implements Serializable{
 		return semestre;
 	}
 
-	public int getQuantidadeDeFaltas() {
-		return quantidadeDeFaltas;
-	}
-
 	public String getHorarios() {
 		return horarios;
 	}
@@ -243,7 +239,6 @@ public class Turma implements Serializable{
 	public String getProfessor() {
 		return professor;
 	}
-
 
 	public List<Avaliacao> getAvaliacoes() {
 		return avaliacoes;
